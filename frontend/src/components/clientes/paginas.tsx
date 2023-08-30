@@ -2,7 +2,7 @@ import { paginaPropsType } from "../../../types";
 
 export default function Pagina(props: paginaPropsType) {
   return (
-    <div className="flex flex-row p-8 gap-5">
+    <div className="flex flex-row p-8 gap-5 justify-center">
       {props.prev && (
         <button
           className="BtnStl"

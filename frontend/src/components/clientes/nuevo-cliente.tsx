@@ -30,20 +30,15 @@ export default function NuevoCliente(props: propsNuevoClienteType) {
     }
   };
   return (
-    <section className=" absolute mt-[-70%] ml-[35vw] min-w-[100vw]justify-center items-center h-screen border-1">
-      <div className="w-[500px]  z-50 bg-white p-8 rounded shadow-lg ">
-        <button
-          className="absolute top-0 right-0 p-3"
-          onClick={() => props.setShow(false)}
-        >
-          X
-        </button>
+    <section className=" absolute top-[220px] left-3">
+      <div className="max-w-[700px]  z-50 bg-white p-8 rounded shadow-lg items-end">
+        <button onClick={() => props.setShow(false)}>X</button>
 
         <h1 className="text-center text-2xl font-bold text-blue-600 mb-5">
           Nuevo cliente
         </h1>
         <form
-          className="flex flex-col gap-8 p-4"
+          className="flex flex-row flex-wrap gap-8 p-4 justify-center"
           onSubmit={(e) => guardarNuevoCliente(e)}
         >
           {Object.keys(defaultFormDataCliente).map((inputName, index) => {
@@ -54,11 +49,11 @@ export default function NuevoCliente(props: propsNuevoClienteType) {
               return (
                 <label
                   key={index}
-                  className="flex flex-col"
+                  className="flex flex-col min-w-[250px]"
                 >
                   {titulos[index]}
                   <input
-                    className="min-h-[50px] p-3 min-w-full disabled:opacity-50 bg-slate-500 enabled:bg-slate-100"
+                    className="min-h-[50px] p-3 min-w-full disabled:bg-white  enabled:bg-slate-100"
                     name={inputName}
                     value={formData?.[inputName]}
                     type="date"
@@ -76,7 +71,7 @@ export default function NuevoCliente(props: propsNuevoClienteType) {
                 >
                   {titulos[index]}
                   <input
-                    className="min-h-[50px] p-3 disabled:opacity-50 bg-slate-500 enabled:bg-slate-100"
+                    className="min-h-[50px] p-3  enabled:bg-slate-100"
                     name={inputName}
                     value={formData?.[inputName]}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -87,7 +82,12 @@ export default function NuevoCliente(props: propsNuevoClienteType) {
               );
             }
           })}
-          <button type="submit">Guardar</button>
+          <button
+            type="submit"
+            className="BtnStl"
+          >
+            Guardar
+          </button>
         </form>
       </div>
     </section>

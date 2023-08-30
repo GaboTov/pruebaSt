@@ -17,7 +17,7 @@ export default function RowTablaClientes(props: rowsTablaClientesType) {
           return (
             <td key={index}>
               <input
-                className="min-h-[50px] p-3 min-w-full disabled:opacity-50 bg-slate-500 enabled:bg-slate-100"
+                className="min-h-[50px] p-3 min-w-full disabled: bg-white enabled:bg-slate-100"
                 name={inputName}
                 value={formData?.[inputName]}
                 type="date"
@@ -32,7 +32,7 @@ export default function RowTablaClientes(props: rowsTablaClientesType) {
           return (
             <td key={index}>
               <input
-                className="min-h-[50px] p-3 disabled:opacity-50 bg-slate-500 enabled:bg-slate-100"
+                className="min-h-[50px] p-3 disabled: bg-white enabled:bg-slate-100"
                 name={inputName}
                 value={formData?.[inputName]}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

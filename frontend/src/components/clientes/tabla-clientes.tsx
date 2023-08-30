@@ -25,8 +25,8 @@ export function TablaClientes() {
   }
   return (
     <>
-      <section className="flex flex-row gap-1 align-middle items-center justify-between p-3">
-        <div className="flex flex-row gap-1 align-middle items-center justify-between">
+      <section className="flex flex-row flex-wrap gap-1 align-middle md:justify-between sm:justify-center   p-3 ">
+        <div className="flex flex-row flex-wrap gap-1 items-center justify-center">
           <FiltroCliente
             data={data?.results}
             setData={setData}
@@ -47,37 +47,39 @@ export function TablaClientes() {
           prev={data?.previous}
         />
       </section>
-      <table className="min-w-full divide-y divide-gray-200 p-1 overflow-x-scroll mb-[5rem]">
-        <thead className="bg-gray-50">
-          <tr>
-            <ThTablaClientes>Razón Social</ThTablaClientes>
-            <ThTablaClientes>CIF</ThTablaClientes>
-            <ThTablaClientes>Dirección</ThTablaClientes>
-            <ThTablaClientes>Municipio</ThTablaClientes>
-            <ThTablaClientes>Provincia</ThTablaClientes>
-            <ThTablaClientes>Inicio del Contrato</ThTablaClientes>
-            <ThTablaClientes>Fin del contrato</ThTablaClientes>
-            <ThTablaClientes>Reconocimientos</ThTablaClientes>
-            <ThTablaClientes></ThTablaClientes>
-          </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {data?.results.map((cliente) => (
-            <RowTablaClientes
-              key={cliente.id}
-              id={cliente.id}
-              razon_social={cliente.razon_social}
-              cif={cliente.cif}
-              direccion={cliente.direccion}
-              municipio={cliente.municipio}
-              provincia={cliente.provincia}
-              inicio_contrato={cliente.inicio_contrato}
-              fin_contrato={cliente.fin_contrato}
-              reconocimientos={cliente.reconocimientos}
-            />
-          ))}
-        </tbody>
-      </table>
+      <div className="overflow-auto md:overflow-scroll mb-10">
+        <table className=" divide-y divide-gray-200 p-1">
+          <thead className="bg-gray-50">
+            <tr>
+              <ThTablaClientes>Razón Social</ThTablaClientes>
+              <ThTablaClientes>CIF</ThTablaClientes>
+              <ThTablaClientes>Dirección</ThTablaClientes>
+              <ThTablaClientes>Municipio</ThTablaClientes>
+              <ThTablaClientes>Provincia</ThTablaClientes>
+              <ThTablaClientes>Inicio del Contrato</ThTablaClientes>
+              <ThTablaClientes>Fin del contrato</ThTablaClientes>
+              <ThTablaClientes>Reconocimientos</ThTablaClientes>
+              <ThTablaClientes></ThTablaClientes>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {data?.results.map((cliente) => (
+              <RowTablaClientes
+                key={cliente.id}
+                id={cliente.id}
+                razon_social={cliente.razon_social}
+                cif={cliente.cif}
+                direccion={cliente.direccion}
+                municipio={cliente.municipio}
+                provincia={cliente.provincia}
+                inicio_contrato={cliente.inicio_contrato}
+                fin_contrato={cliente.fin_contrato}
+                reconocimientos={cliente.reconocimientos}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {showNewClient && (
         <NuevoCliente

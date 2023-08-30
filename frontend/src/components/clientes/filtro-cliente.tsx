@@ -19,8 +19,8 @@ export default function FiltroCliente(props: filtroClientePropsType) {
   };
 
   return (
-    <section className="p-8">
-      <form className="flex flex-row gap-8 ">
+    <section className="p-8 flex flex-row flex-wrap">
+      <form className="flex flex-row gap-8 flex-wrap justify-center">
         <label className="flex flex-col">
           Razón social
           <input

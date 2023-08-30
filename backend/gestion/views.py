@@ -1,8 +1,18 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .models import Empresa
-from .serializers import EmpresaSerializer
+from .models import Empresa, ReservaCita
+from .serializers import EmpresaSerializer, CrearCitaSerializer, CitaSerializer
 from rest_framework.pagination import PageNumberPagination
+from django.db.models import F
+from django.db.models.functions import ExtractWeek
+from .models import Cita
+from .serializers import CitaSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from datetime import datetime
+from .cita_manager import CitaManager
+from rest_framework import serializers
 
 class CustomPagination(PageNumberPagination):
     page_size = 15
@@ -32,3 +42,34 @@ class EmpresaList(generics.ListCreateAPIView):
 class EmpresaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Empresa.objects.all()
     serializer_class = EmpresaSerializer
+    
+
+
+class CrearCita(generics.ListCreateAPIView):
+    serializer_class = CrearCitaSerializer
+    queryset = ReservaCita.objects.all()
+    
+    
+class CitasSemanalesView(generics.ListCreateAPIView):
+    serializer_class = CitaSerializer
+    queryset = Cita.objects.order_by('-id')
+    def get_queryset(self):
+        week_param = self.request.query_params.get('week')
+
+        if week_param:
+            try:
+                week = int(week_param)
+            except ValueError:
+                return Cita.objects.none()
+            # Filtra las citas por el número de semana proporcionado
+            citas_semana = Cita.objects.annotate(week=ExtractWeek('fecha_cita')).filter(week=week)
+        else:
+            today = datetime.now()
+
+            # Obtén la semana actual del año
+            current_week = today.isocalendar()[1]
+            print(current_week)
+            # Filtra las citas por la semana actual
+            citas_semana = Cita.objects.annotate(week=ExtractWeek('fecha_cita')).filter(week=current_week)
+
+        return citas_semana

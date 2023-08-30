@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+
 class Empresa(models.Model):
     razon_social = models.CharField("razón social",max_length=100)
     municipio = models.CharField("municipio",max_length=50)
@@ -13,7 +13,17 @@ class Empresa(models.Model):
     def __str__(self):
         return self.razon_social
     
+class ReservaCita(models.Model):
+    razon_social = models.CharField("razón social",max_length=100)
+    fecha_inicio_agenda = models.DateField(verbose_name ="fecha de la cita")
+    numero_citas = models.IntegerField()
+    codigo = models.CharField(max_length=20)
 
 
-    
-    
+class Cita(models.Model):
+    razon_social = models.CharField("razón social",max_length=100)
+    numero_cita = models.CharField(max_length=20)#una fracción para saber que cita es respecto al total
+    fecha_cita = models.DateTimeField()
+    paciente= models.CharField(max_length=50)
+    realizada = models.BooleanField()
+

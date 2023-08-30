@@ -51,7 +51,7 @@ Tiene los mismo componentes de la reserva de cita pero al darle click a la cita 
 
 ### Backend
 
-Para la gestión de las citas y las reservas se crean un modelo de datos para cada uno y un gestor de citas para asignar la hora de las citas y donde se obtienen las citas para mostrar en el Frontend
+Para la gestión de las citas y las reservas se crean un modelo de datos para cada uno y una signal para asignar la fecha y hora de las citas y guardarlas en el modelo de citas
 
 #### Modelo de datos de la reserva de cita
 
@@ -62,11 +62,10 @@ from django.db import models
 class ReservaCita(models.Model):
     razon_social = models.ForeignKey("Empresa", on_delete = models.CASCADE)
     fecha_inicio_agenda = models.DateField(verbose_name ="inicio de citas")
-    fecha_final_agenda = models.DateField(verbose_name ="final de citas")
     numero_citas = models.IntegerField()
     fecha_cita = models.DateField(verbose_name ="final del contrato")
-    paciente= models.CharField(max_length=50)
-    informacion = models.CharField( max_length=50)
+    codigo = models.CharField()
+
 
 ```
 
@@ -78,68 +77,52 @@ from django.db import models
 
 class Cita(models.Model):
     razon_social = models.ForeignKey("Empresa", on_delete = models.CASCADE)
-    numero_cita = models.CharField()
+    codigo = models.ForeignKey("ReservaCita", on_delete = models.CASCADE)
+    numero_cita = models.CharField()#una fracción para saber que cita es respecto al total
     fecha_cita = models.DateTimeField()
     paciente= models.CharField(max_length=50)
-    informacion = models.CharField( max_length=50)
+    realizada = models.models.BooleanField()
 
-    object = CitaManager()
 ```
 
 ### Administrador de citas
 
-Mira la ultima cita que hay en la base de datos para empezar a crear citas cada 20 minutos en un horario de 9 a 2 y de 4 a 8
+Mira la ultima cita que hay en la base de datos para empezar a crear citas cada 15 minutos a partir y usamos esta clase para crear las nuevas citas
 
 ```python
 # citaManager.py
-from django.db import models
-from datetime import timedelta
-NUMERO_DOCTORES = 4
-class CitaManager(models.Manager):
-    def nuevas_citas(self, inicio, final, razon_social, num_citas):
-        last_cita = self.get_last_cita()
-        hora_inicio, hora_fin_dia, hora_inicio_tarde, hora_fin_tarde = self.get_hours(inicio, last_cita)
+INTERVALO_CITAS = 15
+class CitaManager:
 
-        citas_creadas = 0
+    def obtener_hora_ultima_cita(self, fecha):
+        try:
+            ultima_cita_fecha = Cita.objects.filter(fecha_cita__icontains=fecha).last()
+            hora_ultima_cita = ultima_cita_fecha.fecha_cita
+        except:
+            hora_ultima_cita = datetime(
+                year=fecha.year,
+                month=fecha.month,
+                day=fecha.day,
+                hour=8,
+                minute=45,
+            )
+        return hora_ultima_cita
 
-        while citas_creadas < num_citas:
-            if hora_inicio <= hora_fin_dia:
-                self.create_cita(razon_social, hora_inicio)
-                citas_creadas += NUMERO_DOCTORES
-                hora_inicio += timedelta(minutes=20)
-            elif hora_inicio_tarde <= hora_fin_tarde:
-                self.create_cita(razon_social, hora_inicio_tarde)
-                citas_creadas += NUMERO_DOCTORES
-                hora_inicio_tarde += timedelta(minutes=20)
-            else:
-                hora_inicio, hora_fin_dia, hora_inicio_tarde, hora_fin_tarde = self.get_next_day_hours(hora_inicio)
+    def generar_nueva_cita(self, instance, num_cita, fecha_nueva_cita):
+        nueva_cita = Cita()
+        nueva_cita.razon_social = instance.razon_social
+        nueva_cita.paciente = ""
+        nueva_cita.numero_cita = f"{num_cita}/{instance.numero_citas}"
+        nueva_cita.fecha_cita = fecha_nueva_cita
+        nueva_cita.realizada = False
+        nueva_cita.save()
 
-    def get_last_cita(self, razon_social):
-      return self.order_by('-fecha_cita').first()
-
-    def get_hours(self, inicio, last_cita):
-        hora_inicio = last_cita.fecha_cita + timedelta(minutes=20) if last_cita else inicio.replace(hour=9, minute=0)
-        hora_fin_dia = inicio.replace(hour=14, minute=0)
-        hora_inicio_tarde = inicio.replace(hour=16, minute=0)
-        hora_fin_tarde = inicio.replace(hour=20, minute=0)
-        return hora_inicio, hora_fin_dia, hora_inicio_tarde, hora_fin_tarde
-
-    def get_next_day_hours(self, hora_inicio):
-        hora_inicio = hora_inicio.replace(day=hora_inicio.day + 1, hour=9, minute=0)
-        hora_fin_dia = hora_inicio.replace(hour=14, minute=0)
-        hora_inicio_tarde = hora_inicio.replace(hour=16, minute=0)
-        hora_fin_tarde = hora_inicio.replace(hour=20, minute=0)
-        return hora_inicio, hora_fin_dia, hora_inicio_tarde, hora_fin_tarde
-
-    def create_cita(self, razon_social, fecha_cita):
-      for _ in range(NUMERO_DOCTORES):
-        self.create(
-            razon_social=razon_social,
-            numero_cita=f'',
-            fecha_cita=fecha_cita,
-            paciente='',
-            informacion=''
-        )
+    def nuevas_citas(self, instance):
+        for num_cita in range(1, instance.numero_citas + 1):
+            fecha = instance.fecha_inicio_agenda
+            hora_ultima_cita = self.obtener_hora_ultima_cita(fecha)
+            fecha_nueva_cita = hora_ultima_cita + timedelta(minutes=INTERVALO_CITAS)
+            self.generar_nueva_cita(instance, num_cita, fecha_nueva_cita)
 
 ```
 
@@ -148,27 +131,9 @@ class CitaManager(models.Manager):
 Recibe la razón social, la fecha de inicio de las citas, la fecha final de las citas y el numero de citas donde el administrado de citas guarda las citas
 
 ```python
-#views.py
-# views.py
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from .models import Cita
-from .serializers import CrearCitaSerializer
-from .citaManager import CitaManager
-
-class CrearCita(APIView):
-    def post(self, request, format=None):
-        serializer = CrearCitaSerializer(data=request.data)
-        if serializer.is_valid():
-            cita_manager = CitaManager()
-            inicio = serializer.validated_data['fecha_inicio_agenda']
-            final = serializer.validated_data['fecha_final_agenda']
-            razon_social = serializer.validated_data['razon_social']
-            citas = serializer.validated_data['numero_citas']
-            cita_manager.nuevas_citas(inicio, final, razon_social, citas)
-            return Response(status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class CrearCita(generics.ListCreateAPIView):
+    serializer_class = CrearCitaSerializer
+    queryset = ReservaCita.objects.all()
 
 ```
 

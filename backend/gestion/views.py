@@ -14,15 +14,18 @@ from datetime import datetime
 from .cita_manager import CitaManager
 from rest_framework import serializers
 
+
 class CustomPagination(PageNumberPagination):
     page_size = 15
     page_size_query_param = 'page_size'
     max_page_size = 100
 
+
 class EmpresaList(generics.ListCreateAPIView):
 
     serializer_class = EmpresaSerializer
     pagination_class = CustomPagination
+
     def get_queryset(self):
         queryset = Empresa.objects.order_by('-id')
         razon_social = self.request.query_params.get('razon_social')
@@ -34,27 +37,29 @@ class EmpresaList(generics.ListCreateAPIView):
             )
         elif razon_social:
             queryset = queryset.filter(razon_social__icontains=razon_social)
-        elif municipio: 
+        elif municipio:
             queryset = queryset.filter(municipio__icontains=municipio)
-        
+
         return queryset
+
 
 class EmpresaDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Empresa.objects.all()
     serializer_class = EmpresaSerializer
-    
 
 
 class CrearCita(generics.ListCreateAPIView):
     serializer_class = CrearCitaSerializer
     queryset = ReservaCita.objects.all()
-    
-    
+
+
 class CitasSemanalesView(generics.ListCreateAPIView):
     serializer_class = CitaSerializer
     queryset = Cita.objects.order_by('-id')
+
     def get_queryset(self):
         week_param = self.request.query_params.get('week')
+        year = self.request.query_params.get('year')
 
         if week_param:
             try:
@@ -62,7 +67,12 @@ class CitasSemanalesView(generics.ListCreateAPIView):
             except ValueError:
                 return Cita.objects.none()
             # Filtra las citas por el número de semana proporcionado
-            citas_semana = Cita.objects.annotate(week=ExtractWeek('fecha_cita')).filter(week=week)
+            if year:
+                citas_semana = Cita.objects.annotate(week=ExtractWeek(
+                    'fecha_cita')).filter(week=week, fecha_cita__contains=year)
+            else:
+                citas_semana = Cita.objects.annotate(week=ExtractWeek(
+                    'fecha_cita')).filter(week=week)
         else:
             today = datetime.now()
 
@@ -70,6 +80,7 @@ class CitasSemanalesView(generics.ListCreateAPIView):
             current_week = today.isocalendar()[1]
             print(current_week)
             # Filtra las citas por la semana actual
-            citas_semana = Cita.objects.annotate(week=ExtractWeek('fecha_cita')).filter(week=current_week)
-
+            citas_semana = Cita.objects.annotate(
+                week=ExtractWeek('fecha_cita')).filter(week=current_week, fecha_cita__contains=year)
+        print(len(citas_semana))
         return citas_semana

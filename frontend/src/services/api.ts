@@ -1,28 +1,38 @@
-import { apiGetType, rowsTablaClientesType } from "@/types";
+import {
+  ApiGetCitasType,
+  ApiGetClientType,
+  Cita,
+  RowsTablaClientesType,
+} from "@/types";
 
 class ApiManager {
-  apiClientes: string;
+  api: string;
   constructor() {
-    this.apiClientes = "http://127.0.0.1:8000/api/clientes/";
+    this.api = "http://127.0.0.1:8000/api/";
   }
 
   getData = async (parte: string) => {
-    let response = await fetch(`${this.apiClientes}${parte}`, {
+    let response = await fetch(`${this.api}${parte}`, {
       method: "GET",
     });
-    let data: apiGetType = await response.json();
+    let data: ApiGetClientType = await response.json();
     if (response.status == 200) {
-      return {
-        results: data.results,
-        next: data.next,
-        previous: data.previous,
-      };
+      return data;
+    }
+  };
+  getDataCitas = async (parte: string) => {
+    let response = await fetch(`${this.api}${parte}`, {
+      method: "GET",
+    });
+    let data: Cita[] = await response.json();
+    if (response.status == 200) {
+      return data;
     }
   };
 
-  postDataCliente = async (body: rowsTablaClientesType) => {
+  postDataCliente = async (body: RowsTablaClientesType) => {
     const data = JSON.stringify(body);
-    let response = await fetch(this.apiClientes, {
+    let response = await fetch(this.api, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,9 +40,9 @@ class ApiManager {
       body: data,
     });
   };
-  updateData = async (id: number, data: rowsTablaClientesType) => {
+  updateData = async (id: number, data: RowsTablaClientesType) => {
     const body = JSON.stringify(data);
-    let response = await fetch(`${this.apiClientes}${id}`, {
+    let response = await fetch(`${this.api}${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

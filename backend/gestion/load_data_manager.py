@@ -51,7 +51,7 @@ class LoadData:
             print(f"empresa {num_client}")
         return empresas
 
-    def random_paciente(self):
+    def random_realizada(self):
         probabilidad = random.randint(0, 4)
         return probabilidad > 0
 
@@ -63,7 +63,7 @@ class LoadData:
             cita.numero_cita = ""
             cita.fecha_cita = self.random_day()
             cita.paciente = ""
-            cita.realizada = self.random_paciente()
+            cita.realizada = self.random_realizada()
             citas_generadas.append(cita)
             print(f"cita {_}")
         return citas_generadas

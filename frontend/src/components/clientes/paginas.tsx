@@ -1,6 +1,6 @@
-import { paginaPropsType } from "../../types";
+import { PaginaPropsType } from "../../types";
 
-export default function Pagina(props: paginaPropsType) {
+export default function Pagina(props: PaginaPropsType) {
   return (
     <div className="flex flex-row p-8 gap-5 justify-center">
       {props.prev && (

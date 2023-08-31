@@ -1,14 +1,14 @@
 "use client";
 
 import ApiManager from "@/services/api";
-import { filtroClientePropsType, filtroFormData } from "../../types";
+import { FiltroClientePropsType, FiltroFormData } from "../../types";
 import FormManager from "@/services/form-manager";
 import { useState } from "react";
 import { defaultFormDataFiltro } from "@/app/defaults/defaults";
 
-export default function FiltroCliente(props: filtroClientePropsType) {
+export default function FiltroCliente(props: FiltroClientePropsType) {
   const formManager = new FormManager();
-  const [formData, setFormData] = useState<filtroFormData>(
+  const [formData, setFormData] = useState<FiltroFormData>(
     props.formFilter || defaultFormDataFiltro
   );
 

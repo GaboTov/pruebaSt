@@ -1,4 +1,4 @@
-import { rowsTablaClientesType } from "@/types";
+import { RowsTablaClientesType } from "@/types";
 import ApiManager from "./api";
 
 export default class FormManager {
@@ -30,7 +30,7 @@ export default class FormManager {
   handleSubmitCliente = (
     event: React.FormEvent<HTMLButtonElement>,
     id: number,
-    data: rowsTablaClientesType,
+    data: RowsTablaClientesType,
     submitted: boolean,
     setSubmitted: React.Dispatch<React.SetStateAction<boolean>>
   ) => {

@@ -1,10 +1,11 @@
 import { defaultFormDataCliente } from "@/app/defaults/defaults";
 import FormManager from "@/services/form-manager";
 import { useState } from "react";
-import { propsNuevoClienteType, rowsTablaClientesType } from "../../types";
+import { PropsNuevoClienteType, RowsTablaClientesType } from "../../types";
 import ApiManager from "@/services/api";
+import { nanoid } from "nanoid";
 
-export default function NuevoCliente(props: propsNuevoClienteType) {
+export default function NuevoCliente(props: PropsNuevoClienteType) {
   const [formData, setFormData] = useState<any>(defaultFormDataCliente);
   const formManager = new FormManager();
   const titulos = [
@@ -48,7 +49,7 @@ export default function NuevoCliente(props: propsNuevoClienteType) {
             if (inputName == "inicio_contrato" || inputName == "fin_contrato") {
               return (
                 <label
-                  key={index}
+                  key={nanoid()}
                   className="flex flex-col min-w-[250px]"
                 >
                   {titulos[index]}
@@ -66,7 +67,7 @@ export default function NuevoCliente(props: propsNuevoClienteType) {
             } else {
               return (
                 <label
-                  key={index}
+                  key={nanoid()}
                   className="flex flex-col"
                 >
                   {titulos[index]}

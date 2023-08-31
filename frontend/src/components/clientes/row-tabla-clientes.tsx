@@ -1,10 +1,11 @@
 "use client";
 import { useState } from "react";
-import { rowsTablaClientesType } from "../../types";
+import { RowsTablaClientesType } from "../../types";
 import FormManager from "@/services/form-manager";
+import { nanoid } from "nanoid";
 
-export default function RowTablaClientes(props: rowsTablaClientesType) {
-  const [formData, setFormData] = useState<rowsTablaClientesType>(props);
+export default function RowTablaClientes(props: RowsTablaClientesType) {
+  const [formData, setFormData] = useState<RowsTablaClientesType>(props);
   const [submitted, setSubmitted] = useState<boolean>(true);
   const formManager = new FormManager();
   return (
@@ -15,7 +16,7 @@ export default function RowTablaClientes(props: rowsTablaClientesType) {
         }
         if (inputName == "inicio_contrato" || inputName == "fin_contrato") {
           return (
-            <td key={index}>
+            <td key={nanoid()}>
               <input
                 className="min-h-[50px] p-3 min-w-full disabled: bg-white enabled:bg-slate-100"
                 name={inputName}
@@ -30,7 +31,7 @@ export default function RowTablaClientes(props: rowsTablaClientesType) {
           );
         } else {
           return (
-            <td key={index}>
+            <td key={nanoid()}>
               <input
                 className="min-h-[50px] p-3 disabled: bg-white enabled:bg-slate-100"
                 name={inputName}

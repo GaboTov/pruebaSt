@@ -1,4 +1,4 @@
-import { apiGetType, rowsTablaClientesType } from "../../../types";
+import { apiGetType, rowsTablaClientesType } from "@/types";
 
 class ApiManager {
   apiClientes: string;

@@ -1,4 +1,4 @@
-import { rowsTablaClientesType } from "../../../types";
+import { rowsTablaClientesType } from "@/types";
 import ApiManager from "./api";
 
 export default class FormManager {

@@ -1,4 +1,4 @@
-import { paginaPropsType } from "../../../types";
+import { paginaPropsType } from "../../types";
 
 export default function Pagina(props: paginaPropsType) {
   return (

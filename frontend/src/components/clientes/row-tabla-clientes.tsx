@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import { rowsTablaClientesType } from "../../../types";
-import FormManager from "@/app/services/form-manager";
+import { rowsTablaClientesType } from "../../types";
+import FormManager from "@/services/form-manager";
 
 export default function RowTablaClientes(props: rowsTablaClientesType) {
   const [formData, setFormData] = useState<rowsTablaClientesType>(props);

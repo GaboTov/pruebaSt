@@ -1,4 +1,4 @@
-import { thTableClientesType } from "../../../types";
+import { thTableClientesType } from "../../types";
 
 export default function ThTablaClientes({ children }: thTableClientesType) {
   return (

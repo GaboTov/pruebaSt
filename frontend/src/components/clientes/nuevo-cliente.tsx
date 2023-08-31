@@ -1,8 +1,8 @@
 import { defaultFormDataCliente } from "@/app/defaults/defaults";
-import FormManager from "@/app/services/form-manager";
+import FormManager from "@/services/form-manager";
 import { useState } from "react";
-import { propsNuevoClienteType, rowsTablaClientesType } from "../../../types";
-import ApiManager from "@/app/services/api";
+import { propsNuevoClienteType, rowsTablaClientesType } from "../../types";
+import ApiManager from "@/services/api";
 
 export default function NuevoCliente(props: propsNuevoClienteType) {
   const [formData, setFormData] = useState<any>(defaultFormDataCliente);

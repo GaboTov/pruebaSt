@@ -1,8 +1,8 @@
 "use client";
 
-import ApiManager from "@/app/services/api";
-import { filtroClientePropsType, filtroFormData } from "../../../types";
-import FormManager from "@/app/services/form-manager";
+import ApiManager from "@/services/api";
+import { filtroClientePropsType, filtroFormData } from "../../types";
+import FormManager from "@/services/form-manager";
 import { useState } from "react";
 import { defaultFormDataFiltro } from "@/app/defaults/defaults";
 

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { propsTypeNavLink } from "../../../types";
+import { propsTypeNavLink } from "../../types";
 
 export default function NavLink({ to, children }: propsTypeNavLink) {
   const pathname = usePathname();

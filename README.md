@@ -1,5 +1,5 @@
 # pruebaSt
-Como usar el proyecto en modo locar
+Como usar el proyecto en modo local
 
 ## Backend
 
@@ -25,7 +25,7 @@ python3 manage.py runserver
 
 ## Frontend
 
-Entramos a la carpeta frontend, instalamos las dependencias, hacemos el build del proyecto y lo iniciamos
+Entramos a la carpeta frontend, instalamos las dependencias, hacemos el build del proyecto y lo iniciamos ( tambien es importante deja el puerto por defecto http://localhost:3000/ ) 
 
 ```bash
 npm install

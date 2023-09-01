@@ -32,6 +32,8 @@ npm install
 npm run build
 npm start
 ```
+## Docs
 
+Son design docs que para tener una idea antes de como afrontar los problemas propuestos con un esquema de diseño para las partes de la aplicación.
 
 

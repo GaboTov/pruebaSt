@@ -27,9 +27,13 @@ class ApiManager {
     });
     return response.status == 201;
   };
-  updateData = async (id: number, data: RowsTablaClientesType) => {
+  updateData = async (
+    id: number,
+    data: RowsTablaClientesType,
+    path: string
+  ) => {
     const body = JSON.stringify(data);
-    let response = await fetch(`${this.api}clientes/${id}`, {
+    let response = await fetch(`${this.api}${path}/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

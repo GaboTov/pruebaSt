@@ -18,7 +18,14 @@ export default class FormManager {
     const { name, value } = event.target;
     setFormData((prevState: any) => ({ ...prevState, [name]: value }));
   };
-
+  handleCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    formData: any,
+    setFormData: React.Dispatch<React.SetStateAction<any>>
+  ) => {
+    const { name, checked } = event.target;
+    setFormData((prevState: any) => ({ ...prevState, [name]: checked }));
+  };
   handleTextChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>,
     formData: any,
@@ -30,16 +37,17 @@ export default class FormManager {
   handleSubmitCliente = (
     event: React.FormEvent<HTMLButtonElement>,
     id: number,
-    data: RowsTablaClientesType,
+    data: any,
     submitted: boolean,
-    setSubmitted: React.Dispatch<React.SetStateAction<boolean>>
+    setSubmitted: React.Dispatch<React.SetStateAction<boolean>>,
+    path: string
   ) => {
     event.preventDefault();
     if (submitted) {
       setSubmitted(!submitted);
     } else {
       const apiManager = new ApiManager();
-      apiManager.updateData(id, data);
+      apiManager.updateData(id, data, path);
       setSubmitted(true);
     }
   };

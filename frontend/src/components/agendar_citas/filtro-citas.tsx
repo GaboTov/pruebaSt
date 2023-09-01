@@ -3,11 +3,13 @@ import FormManager from "@/services/form-manager";
 import { FiltroAgendarDataType, PropsFilterNewCita } from "@/types";
 import { useState } from "react";
 import NuevasCitas from "./nuevas-citas";
+import { usePathname } from "next/navigation";
 
 export default function FiltroCitas(props: PropsFilterNewCita) {
   const formManager = new FormManager();
   const [formData, setFormData] = useState<FiltroAgendarDataType>();
   const [showReserva, setShowReserva] = useState(false);
+  const pathname = usePathname();
   const buscar = (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const dateManager = new DateManager();
@@ -43,12 +45,14 @@ export default function FiltroCitas(props: PropsFilterNewCita) {
             Buscar
           </button>
         </form>
-        <button
-          className="BtnStl"
-          onClick={() => setShowReserva(true)}
-        >
-          Agendar citas
-        </button>
+        {pathname === "/agendar_citas" && (
+          <button
+            className="BtnStl"
+            onClick={() => setShowReserva(true)}
+          >
+            Agendar citas
+          </button>
+        )}
       </section>
       {showReserva && (
         <NuevasCitas

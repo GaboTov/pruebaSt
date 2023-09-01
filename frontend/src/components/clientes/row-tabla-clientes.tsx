@@ -116,7 +116,8 @@ export default function RowTablaClientes(props: RowsTablaClientesType) {
               formData.id,
               formData,
               submitted,
-              setSubmitted
+              setSubmitted,
+              "clientes"
             )
           }
         >

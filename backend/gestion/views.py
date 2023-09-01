@@ -84,3 +84,8 @@ class CitasSemanalesView(generics.ListCreateAPIView):
                 week=ExtractWeek('fecha_cita')).filter(week=current_week, fecha_cita__contains=year)
         print(len(citas_semana))
         return citas_semana
+
+
+class CitasSemanalesViewDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = CitaSerializer
+    queryset = Cita.objects.all()

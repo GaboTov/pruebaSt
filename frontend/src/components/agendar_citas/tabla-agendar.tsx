@@ -1,3 +1,4 @@
+"use client";
 import FiltroCitas from "@/components/agendar_citas/filtro-citas";
 import { TablaSemana } from "@/components/agendar_citas/tabla-semanac";
 

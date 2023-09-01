@@ -10,6 +10,7 @@ export default function NavBar() {
         <NavLink to={"/"}>Inicio</NavLink>
         <NavLink to={"/clientes"}>Clientes</NavLink>
         <NavLink to={"/agendar_citas"}>Agendar citas</NavLink>
+        <NavLink to={"/citas"}>Citas</NavLink>
       </nav>
     </>
   );

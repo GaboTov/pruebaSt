@@ -15,3 +15,14 @@ export const defaultFormDataCliente = {
   fin_contrato: " 0",
   reconocimientos: 0,
 };
+
+export const defaultFiltroAgendarValues = {
+  fecha: "",
+  cliente: "",
+};
+
+export const defaulFormNuevaCita = {
+  razon_social: "",
+  fecha_inicio_agenda: "1000-01-06",
+  numero_citas: 0,
+};

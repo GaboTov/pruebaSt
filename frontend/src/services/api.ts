@@ -1,9 +1,4 @@
-import {
-  ApiGetCitasType,
-  ApiGetClientType,
-  Cita,
-  RowsTablaClientesType,
-} from "@/types";
+import { RowsTablaClientesType } from "@/types";
 
 class ApiManager {
   api: string;
@@ -15,34 +10,26 @@ class ApiManager {
     let response = await fetch(`${this.api}${parte}`, {
       method: "GET",
     });
-    let data: ApiGetClientType = await response.json();
-    if (response.status == 200) {
-      return data;
-    }
-  };
-  getDataCitas = async (parte: string) => {
-    let response = await fetch(`${this.api}${parte}`, {
-      method: "GET",
-    });
-    let data: Cita[] = await response.json();
+    let data: any = await response.json();
     if (response.status == 200) {
       return data;
     }
   };
 
-  postDataCliente = async (body: RowsTablaClientesType) => {
+  postData = async (body: any, parte: string) => {
     const data = JSON.stringify(body);
-    let response = await fetch(this.api, {
+    let response = await fetch(`${this.api}${parte}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: data,
     });
+    return response.status == 201;
   };
   updateData = async (id: number, data: RowsTablaClientesType) => {
     const body = JSON.stringify(data);
-    let response = await fetch(`${this.api}${id}`, {
+    let response = await fetch(`${this.api}clientes/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

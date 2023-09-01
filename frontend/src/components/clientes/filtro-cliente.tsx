@@ -1,6 +1,5 @@
 "use client";
 
-import ApiManager from "@/services/api";
 import { FiltroClientePropsType, FiltroFormData } from "../../types";
 import FormManager from "@/services/form-manager";
 import { useState } from "react";
@@ -26,6 +25,7 @@ export default function FiltroCliente(props: FiltroClientePropsType) {
           <input
             name="razon_social"
             value={formData.razon_social}
+            type="text"
             onChange={(e) => {
               formManager.handleInputChange(e, formData, setFormData);
             }}
@@ -37,6 +37,7 @@ export default function FiltroCliente(props: FiltroClientePropsType) {
           <input
             name="municipio"
             value={formData.municipio}
+            type="text"
             onChange={(e) => {
               formManager.handleInputChange(e, formData, setFormData);
             }}

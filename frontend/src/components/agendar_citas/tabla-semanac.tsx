@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import ThTablaClientes from "../clientes/th-tabla-cliente";
 import { PropsChildren } from "@/types";
 
@@ -9,7 +10,7 @@ export function TablaSemana({
 }: PropsChildren) {
   function formatDateToDdMmYyyy(date: Date): string {
     const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Los meses comienzan desde 0
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
 
     return `${day}/${month}/${year}`;
@@ -34,23 +35,25 @@ export function TablaSemana({
           siguiente
         </button>
       </div>
-      <table className="overflow-auto md:overflow-scroll mb-10 min-w-[1300px]">
-        <thead className="bg-gray-50">
-          <tr>
-            <ThTablaClientes></ThTablaClientes>
-            {days.map((day, index) => {
-              let fechaActual = new Date(dateMondayWeek);
-              fechaActual.setDate(dateMondayWeek.getDate() + index);
-              return (
-                <ThTablaClientes>
-                  {day} {formatDateToDdMmYyyy(fechaActual)}
-                </ThTablaClientes>
-              );
-            })}
-          </tr>
-        </thead>
-        {children}
-      </table>
+      <div className="overflow-auto md:overflow-scroll mb-10">
+        <table className="overflow-auto md:overflow-scroll mb-10 min-w-[1300px]">
+          <thead className="bg-gray-50">
+            <tr>
+              <ThTablaClientes></ThTablaClientes>
+              {days.map((day, index) => {
+                let fechaActual = new Date(dateMondayWeek);
+                fechaActual.setDate(dateMondayWeek.getDate() + index);
+                return (
+                  <ThTablaClientes key={nanoid()}>
+                    {day} {formatDateToDdMmYyyy(fechaActual)}
+                  </ThTablaClientes>
+                );
+              })}
+            </tr>
+          </thead>
+          {children}
+        </table>
+      </div>
     </section>
   );
 }

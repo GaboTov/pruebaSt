@@ -6,6 +6,7 @@ import Pagina from "./paginas";
 import RowTablaClientes from "./row-tabla-clientes";
 import ThTablaClientes from "./th-tabla-cliente";
 import useGetData from "@/hooks/use-get-data";
+import dynamic from "next/dynamic";
 
 export function TablaClientes() {
   const {

@@ -1,6 +1,5 @@
 export default class DateManager {
-  getWeekNumber() {
-    const date = new Date();
+  getWeekNumber(date: Date) {
     const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
     const daysPassed =
       Math.floor(

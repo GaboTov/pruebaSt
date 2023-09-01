@@ -5,3 +5,7 @@
 .BtnStl {
   @apply py-3 px-5 max-h-[50px] rounded-lg bg-blue-800 hover:scale-110 transition-all duration-300 text-white;
 }
+
+.InputNuevo {
+  @apply min-h-[50px] p-3 min-w-full disabled:bg-white  enabled:bg-slate-100;
+}

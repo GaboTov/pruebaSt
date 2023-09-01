@@ -1,3 +1,4 @@
+import { defaultFiltroAgendarValues } from "@/app/defaults/defaults";
 import ApiManager from "@/services/api";
 import DateManager from "@/services/date-manager";
 import { Cita } from "@/types";
@@ -7,34 +8,38 @@ export default function useGetCitas() {
   const dateManager = new DateManager();
   const [data, setData] = useState<Cita[]>([]);
   const [loading, setLoading] = useState<boolean>();
-  const [week, setWeek] = useState<number>(dateManager.getWeekNumber());
-  const year = 2023; // Cambia esto al año correspondiente
+  const today = new Date();
+  const [week, setWeek] = useState<number>(dateManager.getWeekNumber(today));
+  const [year, setYear] = useState(today.getFullYear());
   const weekDates = dateManager.getDatesForWeek(week, year);
-  console.log(weekDates["Monday"]);
   const [dateMondayWeek, setDateMondayWeek] = useState<Date>(
     weekDates["Monday"]
   );
-
   //obtener citas
   useEffect(() => {
+    if (week <= 0) {
+      setYear(year - 1);
+      setWeek(52);
+    }
+    if (week >= 53) {
+      setYear(year + 1);
+      setWeek(1);
+    }
     const fetchData = async () => {
       const api = new ApiManager();
       try {
-        const dataApi = await api.getDataCitas(
-          `citas/?week=${week}&year=${2023}`
-        );
+        const dataApi = await api.getData(`citas/?week=${week}&year=${year}`);
         setLoading(false);
-        if (dataApi) {
-          setData(dataApi);
-          const weekDates = dateManager.getDatesForWeek(week, year);
-          setDateMondayWeek(weekDates["Monday"]);
-        }
-      } catch {
-        return;
+
+        setData(dataApi);
+        const weekDates = dateManager.getDatesForWeek(week, year);
+        setDateMondayWeek(weekDates["Monday"]);
+      } catch (error) {
+        console.error(error);
       }
     };
 
     fetchData();
   }, [week]);
-  return { data, week, setWeek, dateMondayWeek };
+  return { data, setData, week, setWeek, dateMondayWeek, year };
 }

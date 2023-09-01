@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { RowsTablaClientesType } from "../../types";
 import FormManager from "@/services/form-manager";
-import { nanoid } from "nanoid";
 
 export default function RowTablaClientes(props: RowsTablaClientesType) {
   const [formData, setFormData] = useState<RowsTablaClientesType>(props);
@@ -10,41 +9,105 @@ export default function RowTablaClientes(props: RowsTablaClientesType) {
   const formManager = new FormManager();
   return (
     <tr className="">
-      {Object.keys(props).map((inputName, index) => {
-        if (inputName == "id") {
-          return;
-        }
-        if (inputName == "inicio_contrato" || inputName == "fin_contrato") {
-          return (
-            <td key={nanoid()}>
-              <input
-                className="min-h-[50px] p-3 min-w-full disabled: bg-white enabled:bg-slate-100"
-                name={inputName}
-                value={formData?.[inputName]}
-                type="date"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  formManager.handleInputChange(e, formData, setFormData)
-                }
-                disabled={submitted}
-              />
-            </td>
-          );
-        } else {
-          return (
-            <td key={nanoid()}>
-              <input
-                className="min-h-[50px] p-3 disabled: bg-white enabled:bg-slate-100"
-                name={inputName}
-                value={formData?.[inputName]}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  formManager.handleInputChange(e, formData, setFormData)
-                }
-                disabled={submitted}
-              />
-            </td>
-          );
-        }
-      })}
+      <td>
+        <label>
+          <input
+            disabled={submitted}
+            value={formData?.razon_social}
+            name="razon_social"
+            className="InputNuevo"
+            type="text"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              formManager.handleInputChange(e, formData, setFormData)
+            }
+          />
+        </label>
+      </td>
+      <td>
+        <input
+          disabled={submitted}
+          value={formData?.cif}
+          name="cif"
+          className="InputNuevo"
+          type="text"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            formManager.handleInputChange(e, formData, setFormData)
+          }
+        />
+      </td>
+      <td>
+        <input
+          disabled={submitted}
+          value={formData?.direccion}
+          name="direccion"
+          className="InputNuevo"
+          type="text"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            formManager.handleInputChange(e, formData, setFormData)
+          }
+        />
+      </td>
+      <td>
+        <input
+          disabled={submitted}
+          value={formData?.municipio}
+          name="municipio"
+          className="InputNuevo"
+          type="text"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            formManager.handleInputChange(e, formData, setFormData)
+          }
+        />
+      </td>
+      <td>
+        <input
+          disabled={submitted}
+          value={formData?.provincia}
+          name="provincia"
+          className="InputNuevo"
+          type="text"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            formManager.handleInputChange(e, formData, setFormData)
+          }
+        />
+      </td>
+      <td>
+        <input
+          disabled={submitted}
+          value={formData?.inicio_contrato}
+          name="inicio_contrato"
+          className="InputNuevo"
+          type="date"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            formManager.handleInputChange(e, formData, setFormData)
+          }
+        />
+      </td>
+      <td>
+        <input
+          disabled={submitted}
+          value={formData?.fin_contrato}
+          name="fin_contrato"
+          className="InputNuevo"
+          type="date"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            formManager.handleInputChange(e, formData, setFormData)
+          }
+        />
+      </td>
+      <td>
+        <input
+          disabled={submitted}
+          value={formData?.reconocimientos}
+          name="reconocimientos"
+          className="InputNuevo"
+          type="number"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            formManager.handleInputChange(e, formData, setFormData)
+          }
+        />
+      </td>
+
       <td>
         <button
           onClick={(e) =>

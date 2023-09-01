@@ -52,7 +52,7 @@ class CrearCita(generics.ListCreateAPIView):
     serializer_class = CrearCitaSerializer
     queryset = ReservaCita.objects.all()
 
-
+#Da las citas por cada semana que le manden, recibe como parametro week= numero de la semana del año 
 class CitasSemanalesView(generics.ListCreateAPIView):
     serializer_class = CitaSerializer
     queryset = Cita.objects.order_by('-id')
@@ -82,7 +82,6 @@ class CitasSemanalesView(generics.ListCreateAPIView):
             # Filtra las citas por la semana actual
             citas_semana = Cita.objects.annotate(
                 week=ExtractWeek('fecha_cita')).filter(week=current_week, fecha_cita__contains=year)
-        print(len(citas_semana))
         return citas_semana
 
 

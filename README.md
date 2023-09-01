@@ -1,5 +1,5 @@
 # pruebaSt
-Como usar el proyecto en modo local
+Como usar el proyecto en modo local usando Google Chrome
 
 ## Backend
 
